@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.SearchView">
+        <item name="android:background">@drawable/background_search</item>
+        <item name="android:drawableStart">@drawable/ic_search</item>
+        <item name="android:drawablePadding">@dimen/margin_horizontal</item>
+        <item name="android:paddingStart">@dimen/margin_horizontal</item>
+        <item name="android:paddingEnd">@dimen/margin_horizontal</item>
+        <item name="android:hint">@string/search_github_users</item>
+        <item name="android:textColorHint">@color/shuttle_gray</item>
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+
+    <style name="label2">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="label2.heading">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>
