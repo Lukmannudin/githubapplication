@@ -9,7 +9,10 @@
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.1675" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17135416666666667" />
+        <entry key="app/src/main/res/layout/activity_repository.xml" value="0.5911458333333334" />
         <entry key="app/src/main/res/layout/item_card.xml" value="0.5684647302904564" />
+        <entry key="app/src/main/res/layout/item_repository.xml" value="0.6230690010298661" />
+        <entry key="app/src/main/res/layout/view_popularity.xml" value="0.5901041666666667" />
       </map>
     </option>
   </component>

@@ -1,5 +1,9 @@
 package com.lukmannudin.githubapp.data
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class User(
     val gistsUrl: String,
     val reposUrl: String,
@@ -26,4 +30,4 @@ data class User(
     val twitterUsername: String,
     val location: String,
     val email: String
-)
+) : Parcelable

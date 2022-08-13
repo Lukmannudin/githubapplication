@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/margin_large"
+    tools:context=".ui.RepositoryActivity">
+
+    <ImageView
+        android:id="@+id/iv_thumbnail_user"
+        android:layout_width="@dimen/thumbnail_user_image_large"
+        android:layout_height="@dimen/thumbnail_user_image_large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/dump_userimage" />
+
+    <TextView
+        android:id="@+id/tv_username"
+        style="@style/heading.label1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_x_small"
+        app:layout_constraintBottom_toTopOf="@id/tv_twitter_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_thumbnail_user"
+        app:layout_constraintTop_toTopOf="@id/iv_thumbnail_user"
+        tools:text="Wang Guan" />
+
+    <TextView
+        android:id="@+id/tv_twitter_username"
+        style="@style/label3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/iv_thumbnail_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_username"
+        app:layout_constraintTop_toBottomOf="@id/tv_username"
+        tools:text="/@wangguan" />
+
+    <TextView
+        android:id="@+id/tv_company"
+        style="@style/label2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_x_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_username"
+        app:layout_constraintTop_toBottomOf="@id/tv_twitter_username"
+        tools:text="Director of Mihoyo Company, Director of Mobile @mihoyo. DevRel. Engineerin" />
+
+    <ImageView
+        android:id="@+id/tv_popularity"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="@dimen/margin_default"
+        android:src="@drawable/ic_followers"
+        app:drawableStartCompat="@drawable/ic_followers"
+        app:layout_constraintStart_toStartOf="@id/tv_username"
+        app:layout_constraintTop_toBottomOf="@id/tv_company" />
+
+    <TextView
+        android:id="@+id/tv_followers_count"
+        style="@style/heading.label3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/tv_popularity"
+        app:layout_constraintStart_toEndOf="@id/tv_popularity"
+        app:layout_constraintTop_toTopOf="@id/tv_popularity"
+        tools:text="12K" />
+
+    <TextView
+        android:id="@+id/tv_followers_label"
+        style="@style/label3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_very_small"
+        android:text="@string/followers"
+        app:layout_constraintBottom_toBottomOf="@id/tv_followers_count"
+        app:layout_constraintStart_toEndOf="@id/tv_followers_count"
+        app:layout_constraintTop_toTopOf="@id/tv_followers_count" />
+
+    <TextView
+        android:id="@+id/tv_dot"
+        style="@style/heading.label3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:text="@string/dot"
+        app:layout_constraintBottom_toBottomOf="@id/tv_followers_label"
+        app:layout_constraintStart_toEndOf="@id/tv_followers_label"
+        app:layout_constraintTop_toTopOf="@id/tv_followers_label" />
+
+    <TextView
+        android:id="@+id/tv_following_count"
+        style="@style/heading.label3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        app:layout_constraintBottom_toBottomOf="@id/tv_followers_label"
+        app:layout_constraintStart_toEndOf="@id/tv_dot"
+        app:layout_constraintTop_toTopOf="@id/tv_followers_label"
+        tools:text="120" />
+
+    <TextView
+        android:id="@+id/tv_following_label"
+        style="@style/label3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:text="@string/following"
+        app:layout_constraintBottom_toBottomOf="@id/tv_followers_label"
+        app:layout_constraintStart_toEndOf="@id/tv_following_count"
+        app:layout_constraintTop_toTopOf="@id/tv_followers_label" />
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_default"
+        android:drawablePadding="@dimen/margin_default"
+        android:textColor="@android:color/black"
+        app:drawableStartCompat="@drawable/ic_location"
+        app:layout_constraintStart_toStartOf="@id/tv_username"
+        app:layout_constraintTop_toBottomOf="@id/tv_popularity"
+        tools:text="Taipei, Taiwan" />
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_default"
+        android:drawablePadding="@dimen/margin_default"
+        android:textColor="@android:color/black"
+        app:drawableStartCompat="@drawable/ic_mail"
+        app:layout_constraintStart_toStartOf="@id/tv_username"
+        app:layout_constraintTop_toBottomOf="@id/tv_location"
+        tools:text="wangsi@gmail.com" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.lukmannudin.githubapp.ui.home
+package com.lukmannudin.githubapp.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,13 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.lukmannudin.githubapp.data.Result
 import com.lukmannudin.githubapp.data.User
 import com.lukmannudin.githubapp.data.user.UserRepository
-import com.lukmannudin.githubapp.data.user.UserRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val userRepositoryImpl: UserRepository
 ) : ViewModel() {
 

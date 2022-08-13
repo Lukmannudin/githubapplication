@@ -1,4 +1,4 @@
-package com.lukmannudin.githubapp.ui.home
+package com.lukmannudin.githubapp.ui.search
 
 import android.content.res.TypedArray
 import android.graphics.drawable.InsetDrawable
@@ -10,18 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukmannudin.githubapp.R
-import com.lukmannudin.githubapp.data.User
 import com.lukmannudin.githubapp.databinding.ActivityHomeBinding
+import com.lukmannudin.githubapp.ui.RepositoryActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-    private val viewModel: HomeViewModel by viewModels()
-    private val adapter: UserCardAdapter by lazy {
-        UserCardAdapter()
+    private val viewModel: SearchViewModel by viewModels()
+    private val adapter: SearchUserAdapter by lazy {
+        SearchUserAdapter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,24 +34,16 @@ class HomeActivity : AppCompatActivity() {
         setupAdapter()
     }
 
-    private fun setupAdapter() {
-        with(binding.rvUsers) {
-            adapter = this@HomeActivity.adapter
-            layoutManager = LinearLayoutManager(this@HomeActivity)
-            addItemDecoration(getDividerItemDecoration())
-        }
-    }
-
     private fun setupObserver() {
         viewModel.viewState.observe(this) { viewState ->
             when (viewState) {
-                is HomeViewModel.MainViewState.Loading -> {
+                is SearchViewModel.MainViewState.Loading -> {
                     setOnLoading(true)
                 }
-                is HomeViewModel.MainViewState.UserLoadFailure -> {
+                is SearchViewModel.MainViewState.UserLoadFailure -> {
                     setOnLoading(false)
                 }
-                is HomeViewModel.MainViewState.UsersLoaded -> {
+                is SearchViewModel.MainViewState.UsersLoaded -> {
                     setOnLoading(false)
                     adapter.addAll(viewState.users)
                 }
@@ -61,6 +53,18 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupView() {
         setupSearchView()
+    }
+
+    private fun setupAdapter() {
+        adapter.onClickItemListener = { user ->
+            RepositoryActivity.start(this, user)
+        }
+
+        with(binding.rvUsers) {
+            adapter = this@SearchActivity.adapter
+            layoutManager = LinearLayoutManager(this@SearchActivity)
+            addItemDecoration(getDividerItemDecoration())
+        }
     }
 
     private fun setOnLoading(status: Boolean) {

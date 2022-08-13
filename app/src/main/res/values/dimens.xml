@@ -14,5 +14,6 @@
     <dimen name="margin_very_small">4dp</dimen>
 
     <dimen name="thumbnail_user_image">32dp</dimen>
+    <dimen name="thumbnail_user_image_large">64dp</dimen>
 
 </resources>
