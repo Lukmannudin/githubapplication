@@ -23,14 +23,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_users"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_horizontal"
         android:layout_marginTop="@dimen/margin_vertical"
+        android:background="@drawable/background_white_radius"
+        android:clipToPadding="false"
+        android:elevation="4dp"
+        android:outlineProvider="bounds"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edt_search" />
+        app:layout_constraintTop_toBottomOf="@id/edt_search"
+        app:layout_constraintVertical_bias="0.001" />
 
     <ImageView
         android:id="@+id/iv_jumbotron"

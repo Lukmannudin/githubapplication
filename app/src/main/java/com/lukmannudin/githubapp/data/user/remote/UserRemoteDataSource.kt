@@ -7,10 +7,6 @@ import com.lukmannudin.githubapp.data.mapper.usermapper.UserMapper
 import com.lukmannudin.githubapp.data.repo.remote.RepoRemote
 import com.lukmannudin.githubapp.data.user.UserApiService
 import com.lukmannudin.githubapp.data.user.UserDataSource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 class UserRemoteDataSource @Inject constructor(
@@ -37,24 +33,22 @@ class UserRemoteDataSource @Inject constructor(
             remoteUsers.addAll(listOf())
         }
 
-        return Result.Success(mergeSearchApiWithUser(remoteUsers))
+        val mergedUsers = mutableListOf<User>()
+        val users = mergeSearchApiWithUser(remoteUsers)
+        mergedUsers.addAll(users)
+
+        return Result.Success(mergedUsers)
     }
 
     private suspend fun mergeSearchApiWithUser(users: List<UserRemote>): List<User> {
         val mergedUsers = mutableListOf<User>()
-
-        coroutineScope {
-            (users.indices).map { index ->
-                val userRemote = users[index]
-                async(Dispatchers.IO) {
-                    userRemote.login?.let { username ->
-                        val result = getUser(username)
-                        if (result is Result.Success) {
-                            mergedUsers.add(result.data)
-                        }
-                    }
+        users.forEach { userRemote ->
+            userRemote.login?.let { username ->
+                val userRemoteResult = getUser(username)
+                if (userRemoteResult is Result.Success) {
+                    mergedUsers.add(userRemoteResult.data)
                 }
-            }.awaitAll()
+            }
         }
 
         return mergedUsers
@@ -63,8 +57,15 @@ class UserRemoteDataSource @Inject constructor(
     override suspend fun getUser(username: String): Result<User> {
         return try {
             val response = userApiService.getUser(username)
-            val user = UserMapper.userRemoteToUser(response.body()!!)
-            Result.Success(user)
+            if (!response.isSuccessful) {
+                return Result.Error(Exception(response.message()))
+            }
+
+            response.body()?.let { userRemote ->
+                Result.Success(UserMapper.userRemoteToUser(userRemote))
+            } ?: kotlin.run {
+                Result.Error(Exception("something error on server"))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             return Result.Error(e)

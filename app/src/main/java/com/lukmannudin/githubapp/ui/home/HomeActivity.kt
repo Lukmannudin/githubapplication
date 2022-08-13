@@ -1,13 +1,19 @@
 package com.lukmannudin.githubapp.ui.home
 
+import android.content.res.TypedArray
+import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lukmannudin.githubapp.R
+import com.lukmannudin.githubapp.data.User
 import com.lukmannudin.githubapp.databinding.ActivityHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -32,6 +38,7 @@ class HomeActivity : AppCompatActivity() {
         with(binding.rvUsers) {
             adapter = this@HomeActivity.adapter
             layoutManager = LinearLayoutManager(this@HomeActivity)
+            addItemDecoration(getDividerItemDecoration())
         }
     }
 
@@ -76,5 +83,20 @@ class HomeActivity : AppCompatActivity() {
             }
             return@setOnEditorActionListener false
         }
+    }
+
+    private fun getDividerItemDecoration(): DividerItemDecoration {
+        val att = intArrayOf(android.R.attr.listDivider)
+
+        val typedArray: TypedArray = this.obtainStyledAttributes(att)
+        val divider = typedArray.getDrawable(0)
+        val inset = resources.getDimensionPixelSize(R.dimen.margin_large)
+        val insetDivider = InsetDrawable(divider, inset, 0, inset, 0)
+        typedArray.recycle()
+
+        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        itemDecoration.setDrawable(insetDivider)
+
+        return itemDecoration
     }
 }

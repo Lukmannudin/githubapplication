@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="shuttle_gray">#616576</color>
+    <color name="wild_sand">#F5F5F5</color>
 </resources>

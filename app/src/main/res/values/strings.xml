@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">githubapp</string>
-    <string name="search_github_users">Search Github Users …</string>
+    <string name="search_github_users">Search Github Users…</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab consequatur deleniti deserunt doloribus enim, est eveniet expedita facere fuga illum nam necessitatibus nesciunt rem, sequi tempore temporibus voluptas. Dignissimos, quasi.</string>
 </resources>

@@ -5,10 +5,11 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_search.xml" value="0.1675" />
         <entry key="app/src/main/res/drawable/background_search.xml" value="0.1675" />
+        <entry key="app/src/main/res/drawable/background_white_radius.xml" value="0.2275" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.1675" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17135416666666667" />
-        <entry key="app/src/main/res/layout/item_card.xml" value="0.5445275177512902" />
+        <entry key="app/src/main/res/layout/item_card.xml" value="0.5684647302904564" />
       </map>
     </option>
   </component>
