@@ -57,14 +57,13 @@ class SearchUserActivity : AppCompatActivity() {
     }
 
     private fun setupAdapter() {
-        adapter.onClickItemListener = { user ->
-            RepositoryActivity.start(this, user)
-        }
-
         with(binding.rvUsers) {
             adapter = this@SearchUserActivity.adapter
             layoutManager = LinearLayoutManager(this@SearchUserActivity)
-            addItemDecoration(getDividerItemDecoration())
+        }
+
+        adapter.onClickItemListener = { user ->
+            RepositoryActivity.start(this, user)
         }
     }
 
@@ -88,20 +87,5 @@ class SearchUserActivity : AppCompatActivity() {
             }
             return@setOnEditorActionListener false
         }
-    }
-
-    private fun getDividerItemDecoration(): DividerItemDecoration {
-        val att = intArrayOf(android.R.attr.listDivider)
-
-        val typedArray: TypedArray = this.obtainStyledAttributes(att)
-        val divider = typedArray.getDrawable(0)
-        val inset = resources.getDimensionPixelSize(R.dimen.margin_large)
-        val insetDivider = InsetDrawable(divider, inset, 0, inset, 0)
-        typedArray.recycle()
-
-        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        itemDecoration.setDrawable(insetDivider)
-
-        return itemDecoration
     }
 }
