@@ -22,6 +22,7 @@ class UserRepositoryImpl(
             is Result.Error -> {
                 emit(Result.Error(resultRemote.exception))
             }
+            Result.Loading -> emit(Result.Loading)
         }
     }
 
@@ -34,6 +35,7 @@ class UserRepositoryImpl(
             is Result.Error -> {
                 emit(Result.Error(resultRemote.exception))
             }
+            Result.Loading -> emit(Result.Loading)
         }
     }
 
@@ -46,6 +48,7 @@ class UserRepositoryImpl(
             is Result.Error -> {
                 emit(Result.Error(resultRemote.exception))
             }
+            Result.Loading -> emit(Result.Loading)
         }
     }
 

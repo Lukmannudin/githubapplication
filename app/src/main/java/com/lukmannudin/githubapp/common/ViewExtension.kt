@@ -1,7 +1,12 @@
 package com.lukmannudin.githubapp.common
 
+import android.graphics.drawable.ColorDrawable
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.lukmannudin.githubapp.R
 
 fun View.visible() {
     this.visibility = View.VISIBLE
@@ -18,4 +23,14 @@ fun TextView.showIfNotEmpty(string: String) {
     } else {
         this.gone()
     }
+}
+
+fun ImageView.showAsCircle(url: String?) {
+    Glide.with(this.context)
+        .load(url)
+        .placeholder(ColorDrawable(ContextCompat.getColor(this.context, R.color.shuttle_gray)))
+        .error(ColorDrawable(ContextCompat.getColor(this.context, R.color.shuttle_gray)))
+        .dontAnimate()
+        .circleCrop()
+        .into(this)
 }

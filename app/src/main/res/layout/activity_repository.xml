@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/margin_large"
-    tools:context=".ui.RepositoryActivity">
+    tools:context=".ui.repository.RepositoryActivity">
 
     <ImageView
         android:id="@+id/iv_thumbnail_user"
@@ -138,5 +138,24 @@
         app:layout_constraintStart_toStartOf="@id/tv_username"
         app:layout_constraintTop_toBottomOf="@id/tv_location"
         tools:text="wangsi@gmail.com" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_repository"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_email" />
+
+    <ProgressBar
+        android:id="@+id/pb_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/rv_repository"
+        app:layout_constraintEnd_toEndOf="@id/rv_repository"
+        app:layout_constraintStart_toStartOf="@id/rv_repository"
+        app:layout_constraintTop_toTopOf="@id/rv_repository" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

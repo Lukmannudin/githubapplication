@@ -36,13 +36,12 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }
+        //todo paging users
     }
 
     sealed class MainViewState {
         object Loading : MainViewState()
-
         data class UsersLoaded(val users: List<User>) : MainViewState()
-
         object UserLoadFailure : MainViewState()
     }
 }

@@ -4,19 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.lukmannudin.githubapp.data.User
-import com.lukmannudin.githubapp.databinding.ItemCardBinding
+import com.lukmannudin.githubapp.databinding.ItemUserBinding
 
-class SearchUserAdapter : ListAdapter<User, SearchCardViewHolder>(SearchUserDiffUtilCallback()) {
+class SearchUserAdapter : ListAdapter<User, SearchUserViewHolder>(SearchUserDiffUtilCallback()) {
 
     lateinit var onClickItemListener: ((User) -> Unit)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchCardViewHolder {
-        return SearchCardViewHolder(
-            ItemCardBinding.inflate(LayoutInflater.from(parent.context))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchUserViewHolder {
+        return SearchUserViewHolder(
+            ItemUserBinding.inflate(LayoutInflater.from(parent.context))
         )
     }
 
-    override fun onBindViewHolder(holder: SearchCardViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchUserViewHolder, position: Int) {
         holder.bindItem(currentList[position], onClickItemListener)
     }
 

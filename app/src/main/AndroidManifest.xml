@@ -18,10 +18,10 @@
         android:theme="@style/Theme.Githubapp"
         tools:targetApi="31" >
         <activity
-            android:name=".RepositoryActivity"
+            android:name=".ui.repository.RepositoryActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.search.SearchActivity"
+            android:name=".ui.search.SearchUserActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

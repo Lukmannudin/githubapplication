@@ -3,20 +3,21 @@ package com.lukmannudin.githubapp.ui.search
 import android.content.res.TypedArray
 import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukmannudin.githubapp.R
+import com.lukmannudin.githubapp.common.gone
+import com.lukmannudin.githubapp.common.visible
 import com.lukmannudin.githubapp.databinding.ActivityHomeBinding
-import com.lukmannudin.githubapp.ui.RepositoryActivity
+import com.lukmannudin.githubapp.ui.repository.RepositoryActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SearchActivity : AppCompatActivity() {
+class SearchUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: SearchViewModel by viewModels()
@@ -61,18 +62,18 @@ class SearchActivity : AppCompatActivity() {
         }
 
         with(binding.rvUsers) {
-            adapter = this@SearchActivity.adapter
-            layoutManager = LinearLayoutManager(this@SearchActivity)
+            adapter = this@SearchUserActivity.adapter
+            layoutManager = LinearLayoutManager(this@SearchUserActivity)
             addItemDecoration(getDividerItemDecoration())
         }
     }
 
     private fun setOnLoading(status: Boolean) {
         with(binding.pbHome) {
-            visibility = if (status) {
-                View.VISIBLE
+            if (status) {
+                visible()
             } else {
-                View.GONE
+                gone()
             }
         }
     }
