@@ -1,6 +1,7 @@
 package com.lukmannudin.githubapp.ui.repository
 
 import androidx.recyclerview.widget.RecyclerView
+import com.lukmannudin.githubapp.common.getLastUpdatedTimeText
 import com.lukmannudin.githubapp.common.showAsCircle
 import com.lukmannudin.githubapp.common.showIfNotEmpty
 import com.lukmannudin.githubapp.data.Repo
@@ -18,8 +19,7 @@ class RepositoryViewHolder(
                 tvRepositoryName.showIfNotEmpty(repo.name)
                 tvDescription.showIfNotEmpty(repo.description)
                 tvStarLabel.showIfNotEmpty(repo.stargazersCount.toString())
-                tvUpdatedTime.showIfNotEmpty(repo.createdAt)
-                //todo make updated time ui more experienced
+                tvUpdatedTime.showIfNotEmpty(repo.createdAt?.getLastUpdatedTimeText() ?: "")
             }
         }
     }
