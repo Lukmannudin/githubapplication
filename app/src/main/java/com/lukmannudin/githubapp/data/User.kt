@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class User(
+    val id: Int,
     val gistsUrl: String,
     val reposUrl: String,
     val followingUrl: String,
@@ -14,13 +15,11 @@ data class User(
     val type: String,
     val url: String,
     val subscriptionsUrl: String,
-    val score: Double,
     val receivedEventsUrl: String,
     val avatarUrl: String,
     val eventsUrl: String,
     val htmlUrl: String,
     val siteAdmin: Boolean,
-    val id: Int,
     val gravatarId: String,
     val nodeId: String,
     val organizationsUrl: String,

@@ -10,6 +10,7 @@ class UserRemoteToUser : Mapper<UserRemote, User> {
         val followers = input.followers ?: -1
 
         return User(
+            input.id ?: -1,
             input.gistsUrl ?: "",
             input.reposUrl ?: "",
             input.followingUrl ?: "",
@@ -19,13 +20,11 @@ class UserRemoteToUser : Mapper<UserRemote, User> {
             input.type ?: "",
             input.url ?: "",
             input.subscriptionsUrl ?: "",
-            -1.0,
             input.receivedEventsUrl ?: "",
             input.avatarUrl ?: "",
             input.eventsUrl ?: "",
             input.htmlUrl ?: "",
             input.siteAdmin ?: false,
-            input.id ?: -1,
             input.gravatarId ?: "",
             input.nodeId ?: "",
             input.organizationsUrl ?: "",

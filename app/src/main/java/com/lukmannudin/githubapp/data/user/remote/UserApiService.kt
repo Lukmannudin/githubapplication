@@ -1,4 +1,4 @@
-package com.lukmannudin.githubapp.data.user
+package com.lukmannudin.githubapp.data.user.remote
 
 import com.lukmannudin.githubapp.data.BaseResponse
 import com.lukmannudin.githubapp.data.repo.remote.RepoRemote
@@ -20,8 +20,5 @@ interface UserApiService {
 
     @GET("users/{username}/repos")
     suspend fun getRepos(@Path("username") username: String): Response<List<RepoRemote>>
-
-    @GET
-    suspend fun getUserByUrl(@Url url: String): Response<UserRemote>
 
 }

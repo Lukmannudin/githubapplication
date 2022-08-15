@@ -5,7 +5,7 @@ import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.lukmannudin.githubapp.BuildConfig
-import com.lukmannudin.githubapp.data.user.UserApiService
+import com.lukmannudin.githubapp.data.user.remote.UserApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

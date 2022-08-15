@@ -5,14 +5,12 @@ import com.lukmannudin.githubapp.data.Result
 import com.lukmannudin.githubapp.data.User
 import com.lukmannudin.githubapp.data.mapper.usermapper.UserMapper
 import com.lukmannudin.githubapp.data.repo.remote.RepoRemote
-import com.lukmannudin.githubapp.data.user.UserApiService
-import com.lukmannudin.githubapp.data.user.UserDataSource
 import javax.inject.Inject
 
 class UserRemoteDataSource @Inject constructor(
     private val userApiService: UserApiService
-) : UserDataSource {
-    override suspend fun search(searchWord: String, page: Int): Result<List<User>> {
+) {
+    suspend fun search(searchWord: String, page: Int): Result<List<User>> {
         val remoteUsers: MutableList<UserRemote> = mutableListOf()
         try {
             val response = userApiService.search(searchWord, page)
@@ -33,28 +31,10 @@ class UserRemoteDataSource @Inject constructor(
             remoteUsers.addAll(listOf())
         }
 
-        val mergedUsers = mutableListOf<User>()
-        val users = mergeSearchApiWithUser(remoteUsers)
-        mergedUsers.addAll(users)
-
-        return Result.Success(mergedUsers)
+        return Result.Success(UserMapper.usersRemoteToUsers(remoteUsers))
     }
 
-    private suspend fun mergeSearchApiWithUser(users: List<UserRemote>): List<User> {
-        val mergedUsers = mutableListOf<User>()
-        users.forEach { userRemote ->
-            userRemote.login?.let { username ->
-                val userRemoteResult = getUser(username)
-                if (userRemoteResult is Result.Success) {
-                    mergedUsers.add(userRemoteResult.data)
-                }
-            }
-        }
-
-        return mergedUsers
-    }
-
-    override suspend fun getUser(username: String): Result<User> {
+    suspend fun getUser(username: String): Result<User> {
         return try {
             val response = userApiService.getUser(username)
             if (!response.isSuccessful) {
@@ -72,7 +52,7 @@ class UserRemoteDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getRepos(username: String): Result<List<Repo>> {
+    suspend fun getRepos(username: String): Result<List<Repo>> {
         val repoRemote: MutableList<RepoRemote> = mutableListOf()
         try {
             val response = userApiService.getRepos(username)
