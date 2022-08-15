@@ -31,4 +31,7 @@ ext {
     chucker_version = '3.5.2'
     glide_version = '4.13.2'
     room_version = '2.4.3'
+    core_testing_version = '2.1.0'
+    truth_version = '0.43'
+    mockitoKotlinVersion = '2.2.0'
 }

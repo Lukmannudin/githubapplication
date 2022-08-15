@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -13,4 +14,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideGson() = Gson()
+
+    @Provides
+    fun provideDispatcher() = Dispatchers.IO
 }

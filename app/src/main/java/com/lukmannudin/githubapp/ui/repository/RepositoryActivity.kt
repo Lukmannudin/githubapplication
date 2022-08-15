@@ -69,7 +69,7 @@ class RepositoryActivity : AppCompatActivity() {
     }
 
     private fun setRepositoryObserver() {
-        viewModel.repositoriesState.observe(this) { viewState ->
+        viewModel.viewState.observe(this) { viewState ->
             viewState.onLoading {
                 setOnLoading(true)
             }

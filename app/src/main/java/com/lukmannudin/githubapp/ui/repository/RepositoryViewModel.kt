@@ -13,20 +13,22 @@ import com.lukmannudin.githubapp.data.model.Result
 import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.data.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RepositoryViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User?>()
     val user: LiveData<User?> = _user
 
-    private val _repositoriesState = MutableLiveData<UiState<List<Repo>>>()
-    val repositoriesState: LiveData<UiState<List<Repo>>> = _repositoriesState
+    private val _viewState = MutableLiveData<UiState<List<Repo>>>()
+    val viewState: LiveData<UiState<List<Repo>>> = _viewState
 
     var currentPage: Int = 0
     var isOnScrollingPage: Boolean = false
@@ -39,19 +41,19 @@ class RepositoryViewModel @Inject constructor(
     }
 
     private fun getRepositories(user: User, forceReload: Boolean = false) {
-        _repositoriesState.postLoadingState()
-        viewModelScope.launch {
+        _viewState.postLoadingState()
+        viewModelScope.launch(ioDispatcher) {
             val repositoriesFlow = userRepository.fetchRepos(user, currentPage, forceReload)
             repositoriesFlow.collectLatest { result ->
                 when (result) {
                     is Result.Error -> {
-                        _repositoriesState.postFailureState(result.exception)
+                        _viewState.postFailureState(result.exception)
                     }
                     is Result.Success -> {
-                        _repositoriesState.postSuccessState(result.data)
+                        _viewState.postSuccessState(result.data)
                     }
                     Result.Loading -> {
-                        _repositoriesState.postLoadingState()
+                        _viewState.postLoadingState()
                     }
                 }
             }
@@ -62,6 +64,8 @@ class RepositoryViewModel @Inject constructor(
     fun getRepositories(forceReload: Boolean = false) {
         user.value?.let { user ->
             getRepositories(user, forceReload)
+        } ?: kotlin.run {
+            _viewState.postFailureState(NullPointerException())
         }
     }
 }

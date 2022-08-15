@@ -12,13 +12,15 @@ import com.lukmannudin.githubapp.data.model.Result
 import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.data.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchUserViewModel @Inject constructor(
-    private val userRepositoryImpl: UserRepository
+    private val userRepository: UserRepository,
+    private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _viewState = MutableLiveData<UiState<List<User>>>()
@@ -29,8 +31,8 @@ class SearchUserViewModel @Inject constructor(
 
     fun search(searchWord: String) {
         _viewState.postLoadingState()
-        viewModelScope.launch {
-            val users = userRepositoryImpl.search(searchWord, currentPage)
+        viewModelScope.launch(ioDispatcher) {
+            val users = userRepository.search(searchWord, currentPage)
             users.collectLatest { userResponse ->
                 when (userResponse) {
                     is Result.Loading -> {
@@ -47,11 +49,5 @@ class SearchUserViewModel @Inject constructor(
             }
             currentPage++
         }
-    }
-
-    sealed class MainViewState {
-        object Loading : MainViewState()
-        data class UsersLoaded(val users: List<User>) : MainViewState()
-        object UserLoadFailure : MainViewState()
     }
 }
