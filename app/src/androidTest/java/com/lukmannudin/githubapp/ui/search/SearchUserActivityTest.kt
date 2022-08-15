@@ -1,10 +1,13 @@
 package com.lukmannudin.githubapp.ui.search
 
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.*
@@ -15,12 +18,16 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.platform.app.InstrumentationRegistry
 import com.lukmannudin.githubapp.R
+import com.lukmannudin.githubapp.common.EspressoIdlingResource
 import kotlinx.coroutines.delay
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,10 +36,23 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class SearchUserActivityTest {
+    private lateinit var instrumentalContext: Context
 
     @Rule
     @JvmField
     var mActivityScenarioRule = ActivityScenarioRule(SearchUserActivity::class.java)
+
+    @Before
+    fun setup() {
+        instrumentalContext = InstrumentationRegistry.getInstrumentation().targetContext
+        ActivityScenario.launch(SearchUserActivity::class.java)
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource())
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource())
+    }
 
     @Test
     fun searchUserActivityTest() {
@@ -65,11 +85,10 @@ class SearchUserActivityTest {
             )
         )
         appCompatEditText2.perform(pressImeActionButton())
-        Thread.sleep(20000)
         onView(withId(R.id.rv_users)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_users)).perform(
-            actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
-        )
+//        onView(withId(R.id.rv_users)).perform(
+//            actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
+//        )
     }
 
     private fun childAtPosition(

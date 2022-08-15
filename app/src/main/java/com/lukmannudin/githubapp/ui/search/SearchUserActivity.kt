@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lukmannudin.githubapp.common.EspressoIdlingResource
 import com.lukmannudin.githubapp.common.UiState
 import com.lukmannudin.githubapp.common.extension.*
-import com.lukmannudin.githubapp.data.model.Repo
 import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.databinding.ActivitySearchUserBinding
 import com.lukmannudin.githubapp.ui.repository.RepositoryActivity
@@ -37,6 +36,7 @@ class SearchUserActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         viewModel.viewState.observe(this) { viewState ->
+            checkIdlingResource(viewState)
             viewState.onLoading {
                 setOnLoading(true)
             }

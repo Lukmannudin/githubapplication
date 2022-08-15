@@ -31,7 +31,6 @@ class SearchUserViewModel @Inject constructor(
     var isOnScrollingPage: Boolean = false
 
     fun search(searchWord: String) {
-        EspressoIdlingResource.increment()
         _viewState.postLoadingState()
         viewModelScope.launch(ioDispatcher) {
             val users = userRepository.search(searchWord, currentPage)
