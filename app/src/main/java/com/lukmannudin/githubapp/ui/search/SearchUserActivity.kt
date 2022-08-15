@@ -1,14 +1,11 @@
 package com.lukmannudin.githubapp.ui.search
 
-import android.content.res.TypedArray
-import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lukmannudin.githubapp.R
+import androidx.recyclerview.widget.RecyclerView
 import com.lukmannudin.githubapp.common.gone
 import com.lukmannudin.githubapp.common.visible
 import com.lukmannudin.githubapp.databinding.ActivityHomeBinding
@@ -46,6 +43,7 @@ class SearchUserActivity : AppCompatActivity() {
                 }
                 is SearchViewModel.MainViewState.UsersLoaded -> {
                     setOnLoading(false)
+                    binding.rvUsers.visible()
                     adapter.addAll(viewState.users)
                 }
             }
@@ -57,13 +55,30 @@ class SearchUserActivity : AppCompatActivity() {
     }
 
     private fun setupAdapter() {
+        val linearLayoutManager = LinearLayoutManager(this)
         with(binding.rvUsers) {
             adapter = this@SearchUserActivity.adapter
-            layoutManager = LinearLayoutManager(this@SearchUserActivity)
+            layoutManager = linearLayoutManager
         }
 
+        binding.rvUsers.addOnScrollListener(getScrollListener(linearLayoutManager))
         adapter.onClickItemListener = { user ->
             RepositoryActivity.start(this, user)
+        }
+    }
+
+    private fun getScrollListener(linearLayoutManager: LinearLayoutManager): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                val lastVisibleItemPosition =
+                    linearLayoutManager.findLastCompletelyVisibleItemPosition()
+
+                if (lastVisibleItemPosition == adapter.currentList.size - 1) {
+                    viewModel.search(binding.edtSearch.text.toString())
+                }
+            }
         }
     }
 
@@ -81,7 +96,10 @@ class SearchUserActivity : AppCompatActivity() {
         binding.edtSearch.setOnEditorActionListener { view, i, _ ->
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 if (view.text.isNotBlank()) {
-                    viewModel.search(view.text.toString(), 0)
+                    viewModel.apply {
+                        currentPage = 0
+                        search(view.text.toString())
+                    }
                 }
                 return@setOnEditorActionListener true
             }

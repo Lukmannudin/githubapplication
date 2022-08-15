@@ -19,9 +19,11 @@ class SearchViewModel @Inject constructor(
     private val _viewState = MutableLiveData<MainViewState>()
     val viewState: LiveData<MainViewState> = _viewState
 
-    fun search(searchWord: String, page: Int) {
+    var currentPage: Int = 0
+
+    fun search(searchWord: String) {
         viewModelScope.launch {
-            val users = userRepositoryImpl.search(searchWord, page)
+            val users = userRepositoryImpl.search(searchWord, currentPage)
             users.collect { userResponse ->
                 when (userResponse) {
                     is Result.Loading -> {
@@ -32,6 +34,7 @@ class SearchViewModel @Inject constructor(
                     }
                     is Result.Success -> {
                         _viewState.value = MainViewState.UsersLoaded(userResponse.data)
+                        currentPage++
                     }
                 }
             }
