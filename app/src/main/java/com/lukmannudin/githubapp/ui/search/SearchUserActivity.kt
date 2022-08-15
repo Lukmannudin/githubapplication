@@ -6,8 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.lukmannudin.githubapp.common.gone
-import com.lukmannudin.githubapp.common.visible
+import com.lukmannudin.githubapp.common.extension.*
 import com.lukmannudin.githubapp.databinding.ActivitySearchUserBinding
 import com.lukmannudin.githubapp.ui.repository.RepositoryActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,22 +33,22 @@ class SearchUserActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         viewModel.viewState.observe(this) { viewState ->
-            when (viewState) {
-                is SearchUserViewModel.MainViewState.Loading -> {
-                    setOnLoading(true)
-                }
-                is SearchUserViewModel.MainViewState.UserLoadFailure -> {
-                    setOnLoading(false)
-                }
-                is SearchUserViewModel.MainViewState.UsersLoaded -> {
-                    setOnLoading(false)
-                    binding.rvUsers.visible()
-                    with(viewState.users) {
-                        if (viewModel.isOnScrollingPage) {
-                            adapter.addAll(this)
-                        } else {
-                            adapter.clearAndAddAll(this)
-                        }
+            viewState.onLoading {
+                setOnLoading(true)
+            }
+
+            viewState.onFailure {
+                setOnLoading(false)
+            }
+
+            viewState.onComplete { users ->
+                setOnLoading(false)
+                binding.rvUsers.visible()
+                users?.let {
+                    if (viewModel.isOnScrollingPage) {
+                        adapter.addAll(it)
+                    } else {
+                        adapter.clearAndAddAll(it)
                     }
                 }
             }

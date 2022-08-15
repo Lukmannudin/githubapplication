@@ -1,4 +1,4 @@
-package com.lukmannudin.githubapp.common
+package com.lukmannudin.githubapp.common.extension
 
 import android.graphics.drawable.ColorDrawable
 import android.view.View

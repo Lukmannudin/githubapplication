@@ -4,10 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lukmannudin.githubapp.common.UiState
+import com.lukmannudin.githubapp.common.extension.postFailureState
+import com.lukmannudin.githubapp.common.extension.postLoadingState
+import com.lukmannudin.githubapp.common.extension.postSuccessState
 import com.lukmannudin.githubapp.data.Result
 import com.lukmannudin.githubapp.data.User
 import com.lukmannudin.githubapp.data.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,26 +21,26 @@ class SearchUserViewModel @Inject constructor(
     private val userRepositoryImpl: UserRepository
 ) : ViewModel() {
 
-    private val _viewState = MutableLiveData<MainViewState>()
-    val viewState: LiveData<MainViewState> = _viewState
+    private val _viewState = MutableLiveData<UiState<List<User>>>()
+    val viewState: LiveData<UiState<List<User>>> = _viewState
 
     var currentPage: Int = 0
     var isOnScrollingPage: Boolean = false
 
     fun search(searchWord: String) {
-        _viewState.value = MainViewState.Loading
+        _viewState.postLoadingState()
         viewModelScope.launch {
             val users = userRepositoryImpl.search(searchWord, currentPage++)
-            users.collect { userResponse ->
+            users.collectLatest { userResponse ->
                 when (userResponse) {
                     is Result.Loading -> {
-                        _viewState.value = MainViewState.Loading
+                        _viewState.postLoadingState()
                     }
                     is Result.Error -> {
-                        _viewState.value = MainViewState.UserLoadFailure
+                        _viewState.postFailureState(userResponse.exception)
                     }
                     is Result.Success -> {
-                        _viewState.value = MainViewState.UsersLoaded(userResponse.data)
+                        _viewState.postSuccessState(userResponse.data)
                         currentPage++
                     }
                 }

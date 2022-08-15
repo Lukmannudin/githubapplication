@@ -6,10 +6,10 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lukmannudin.githubapp.common.gone
-import com.lukmannudin.githubapp.common.showAsCircle
-import com.lukmannudin.githubapp.common.showIfNotEmpty
-import com.lukmannudin.githubapp.common.visible
+import com.lukmannudin.githubapp.common.extension.gone
+import com.lukmannudin.githubapp.common.extension.showAsCircle
+import com.lukmannudin.githubapp.common.extension.showIfNotEmpty
+import com.lukmannudin.githubapp.common.extension.visible
 import com.lukmannudin.githubapp.data.User
 import com.lukmannudin.githubapp.databinding.ActivityRepositoryBinding
 import dagger.hilt.android.AndroidEntryPoint

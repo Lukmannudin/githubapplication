@@ -1,9 +1,8 @@
 package com.lukmannudin.githubapp.ui.search
 
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.lukmannudin.githubapp.common.showAsCircle
-import com.lukmannudin.githubapp.common.showIfNotEmpty
+import com.lukmannudin.githubapp.common.extension.showAsCircle
+import com.lukmannudin.githubapp.common.extension.showIfNotEmpty
 import com.lukmannudin.githubapp.data.User
 import com.lukmannudin.githubapp.databinding.ItemUserBinding
 

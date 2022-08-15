@@ -1,5 +1,7 @@
 package com.lukmannudin.githubapp.data.user
 
+import com.lukmannudin.githubapp.common.extension.onFailure
+import com.lukmannudin.githubapp.common.extension.onSuccess
 import com.lukmannudin.githubapp.data.Repo
 import com.lukmannudin.githubapp.data.Result
 import com.lukmannudin.githubapp.data.User
@@ -16,44 +18,50 @@ class UserRepositoryImpl(
 
     override suspend fun search(searchWord: String, page: Int): Flow<Result<List<User>>> = flow {
         emit(Result.Loading)
-        when (val resultRemote = userRemoteDataSource.search(searchWord, page)) {
-            is Result.Success -> {
-                val mergedUsers = mergeSearchWithGetUser(resultRemote.data)
+
+        userRemoteDataSource.search(searchWord, page).apply {
+            onFailure { exception ->
+                emit(Result.Error(exception))
+            }
+            onSuccess { users ->
+                val mergedUsers = mergeSearchWithGetUser(users)
                 saveUsersToDatabase(mergedUsers)
 
                 emit(Result.Success(mergedUsers))
             }
-            is Result.Error -> {
-                emit(Result.Error(resultRemote.exception))
-            }
-            Result.Loading -> emit(Result.Loading)
         }
     }
 
     override suspend fun fetchUser(username: String): Flow<Result<User>> = flow {
         emit(Result.Loading)
-        val resultLocal = userLocalDataSource.getUser(username)
-        if (resultLocal is Result.Success) {
-            emit(Result.Success(resultLocal.data))
-        } else {
-            val resultRemote = userRemoteDataSource.getUser(username)
-            if (resultRemote is Result.Success) {
-                saveUser(resultRemote.data)
+        userLocalDataSource.getUser(username).apply {
+            onFailure {
+                userRemoteDataSource.getUser(username).apply {
+                    onSuccess { user ->
+                        saveUser(user)
+                        emit(Result.Success(user))
+                    }
+                    onFailure { exception ->
+                        emit(Result.Error(exception))
+                    }
+                }
             }
-            emit(resultRemote)
+
+            onSuccess { user ->
+                emit(Result.Success(user))
+            }
         }
     }
 
     override suspend fun fetchRepos(username: String): Flow<Result<List<Repo>>> = flow {
         emit(Result.Loading)
-        when (val resultRemote = userRemoteDataSource.getRepos(username)) {
-            is Result.Success -> {
-                emit(Result.Success(resultRemote.data))
+        userRemoteDataSource.getRepos(username).apply {
+            onSuccess { repositories ->
+                emit(Result.Success(repositories))
             }
-            is Result.Error -> {
-                emit(Result.Error(resultRemote.exception))
+            onFailure { exception ->
+                emit(Result.Error(exception))
             }
-            Result.Loading -> emit(Result.Loading)
         }
     }
 
