@@ -7,7 +7,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.IdlingResource
+import com.lukmannudin.githubapp.common.EspressoIdlingResource
+import com.lukmannudin.githubapp.common.UiState
 import com.lukmannudin.githubapp.common.extension.*
+import com.lukmannudin.githubapp.data.model.Repo
 import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.databinding.ActivityRepositoryBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,6 +74,7 @@ class RepositoryActivity : AppCompatActivity() {
 
     private fun setRepositoryObserver() {
         viewModel.viewState.observe(this) { viewState ->
+            checkIdlingResource(viewState)
             viewState.onLoading {
                 setOnLoading(true)
             }
@@ -112,6 +117,15 @@ class RepositoryActivity : AppCompatActivity() {
             } else {
                 gone()
             }
+        }
+    }
+
+    // for testing only
+    private fun checkIdlingResource(viewState: UiState<List<Repo>>) {
+        if (viewState is UiState.Loading) {
+            EspressoIdlingResource.increment()
+        } else {
+            EspressoIdlingResource.increment()
         }
     }
 

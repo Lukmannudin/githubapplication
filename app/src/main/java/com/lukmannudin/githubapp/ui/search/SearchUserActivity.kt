@@ -6,7 +6,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.lukmannudin.githubapp.common.EspressoIdlingResource
+import com.lukmannudin.githubapp.common.UiState
 import com.lukmannudin.githubapp.common.extension.*
+import com.lukmannudin.githubapp.data.model.Repo
+import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.databinding.ActivitySearchUserBinding
 import com.lukmannudin.githubapp.ui.repository.RepositoryActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -111,6 +115,16 @@ class SearchUserActivity : AppCompatActivity() {
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
+        }
+    }
+
+
+    // for testing only
+    private fun checkIdlingResource(viewState: UiState<List<User>>) {
+        if (viewState is UiState.Loading) {
+            EspressoIdlingResource.increment()
+        } else {
+            EspressoIdlingResource.decrement()
         }
     }
 }

@@ -3,6 +3,7 @@ package com.lukmannudin.githubapp.ui.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.lukmannudin.githubapp.common.EspressoIdlingResource
 import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.databinding.ItemUserBinding
 
@@ -32,10 +33,12 @@ class SearchUserAdapter : ListAdapter<User, SearchUserViewHolder>(SearchUserDiff
             user.login
         }
         submitList(items)
+        EspressoIdlingResource.decrement()
     }
 
     fun clearAndAddAll(users: List<User>){
         submitList(users)
+        EspressoIdlingResource.decrement()
     }
 
     fun clear() {

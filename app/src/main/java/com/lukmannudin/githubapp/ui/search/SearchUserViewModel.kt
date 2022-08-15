@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lukmannudin.githubapp.common.EspressoIdlingResource
 import com.lukmannudin.githubapp.common.UiState
 import com.lukmannudin.githubapp.common.extension.postFailureState
 import com.lukmannudin.githubapp.common.extension.postLoadingState
@@ -30,6 +31,7 @@ class SearchUserViewModel @Inject constructor(
     var isOnScrollingPage: Boolean = false
 
     fun search(searchWord: String) {
+        EspressoIdlingResource.increment()
         _viewState.postLoadingState()
         viewModelScope.launch(ioDispatcher) {
             val users = userRepository.search(searchWord, currentPage)
