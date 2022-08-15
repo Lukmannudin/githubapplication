@@ -28,7 +28,7 @@ class RepositoryActivity : AppCompatActivity() {
         binding = ActivityRepositoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupObserver()
-        setupAdater()
+        setupAdapter()
 
         val intent = intent.getParcelableExtra<User>(ARG_USER)
         viewModel.initData(intent)
@@ -50,10 +50,11 @@ class RepositoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupAdater() {
+    private fun setupAdapter() {
+        val linearLayoutManager = LinearLayoutManager(this@RepositoryActivity)
         with(binding.rvRepository) {
             adapter = this@RepositoryActivity.adapter
-            layoutManager = LinearLayoutManager(this@RepositoryActivity)
+            layoutManager = linearLayoutManager
         }
     }
 

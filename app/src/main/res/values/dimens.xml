@@ -15,5 +15,6 @@
 
     <dimen name="thumbnail_user_image">32dp</dimen>
     <dimen name="thumbnail_user_image_large">64dp</dimen>
+    <dimen name="progressbar_size">40dp</dimen>
 
 </resources>

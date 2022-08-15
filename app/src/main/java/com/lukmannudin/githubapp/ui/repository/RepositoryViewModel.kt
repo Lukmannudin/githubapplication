@@ -48,7 +48,6 @@ class RepositoryViewModel @Inject constructor(
                 }
             }
         }
-        //todo paging repositories
     }
 
     sealed class RepositoryViewState {

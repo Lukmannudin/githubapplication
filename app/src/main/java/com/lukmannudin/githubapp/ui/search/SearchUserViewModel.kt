@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchUserViewModel @Inject constructor(
     private val userRepositoryImpl: UserRepository
 ) : ViewModel() {
 
@@ -20,10 +20,12 @@ class SearchViewModel @Inject constructor(
     val viewState: LiveData<MainViewState> = _viewState
 
     var currentPage: Int = 0
+    var isOnScrollingPage: Boolean = false
 
     fun search(searchWord: String) {
+        _viewState.value = MainViewState.Loading
         viewModelScope.launch {
-            val users = userRepositoryImpl.search(searchWord, currentPage)
+            val users = userRepositoryImpl.search(searchWord, currentPage++)
             users.collect { userResponse ->
                 when (userResponse) {
                     is Result.Loading -> {
@@ -39,7 +41,6 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }
-        //todo paging users
     }
 
     sealed class MainViewState {

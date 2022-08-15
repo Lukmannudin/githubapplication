@@ -25,6 +25,13 @@ class SearchUserAdapter : ListAdapter<User, SearchUserViewHolder>(SearchUserDiff
     }
 
     fun addAll(users: List<User>) {
+        val items = mutableListOf<User>()
+        items.addAll(currentList)
+        items.addAll(users)
+        submitList(items)
+    }
+
+    fun clearAndAddAll(users: List<User>){
         submitList(users)
     }
 

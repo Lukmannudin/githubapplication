@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lukmannudin.githubapp.common.gone
 import com.lukmannudin.githubapp.common.visible
-import com.lukmannudin.githubapp.databinding.ActivityHomeBinding
+import com.lukmannudin.githubapp.databinding.ActivitySearchUserBinding
 import com.lukmannudin.githubapp.ui.repository.RepositoryActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,15 +16,15 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchUserActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
-    private val viewModel: SearchViewModel by viewModels()
+    private lateinit var binding: ActivitySearchUserBinding
+    private val viewModel: SearchUserViewModel by viewModels()
     private val adapter: SearchUserAdapter by lazy {
         SearchUserAdapter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding = ActivitySearchUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupView()
 
@@ -35,16 +35,22 @@ class SearchUserActivity : AppCompatActivity() {
     private fun setupObserver() {
         viewModel.viewState.observe(this) { viewState ->
             when (viewState) {
-                is SearchViewModel.MainViewState.Loading -> {
+                is SearchUserViewModel.MainViewState.Loading -> {
                     setOnLoading(true)
                 }
-                is SearchViewModel.MainViewState.UserLoadFailure -> {
+                is SearchUserViewModel.MainViewState.UserLoadFailure -> {
                     setOnLoading(false)
                 }
-                is SearchViewModel.MainViewState.UsersLoaded -> {
+                is SearchUserViewModel.MainViewState.UsersLoaded -> {
                     setOnLoading(false)
                     binding.rvUsers.visible()
-                    adapter.addAll(viewState.users)
+                    with(viewState.users) {
+                        if (viewModel.isOnScrollingPage) {
+                            adapter.addAll(this)
+                        } else {
+                            adapter.clearAndAddAll(this)
+                        }
+                    }
                 }
             }
         }
@@ -59,9 +65,9 @@ class SearchUserActivity : AppCompatActivity() {
         with(binding.rvUsers) {
             adapter = this@SearchUserActivity.adapter
             layoutManager = linearLayoutManager
+            addOnScrollListener(getScrollListener(linearLayoutManager))
         }
 
-        binding.rvUsers.addOnScrollListener(getScrollListener(linearLayoutManager))
         adapter.onClickItemListener = { user ->
             RepositoryActivity.start(this, user)
         }
@@ -76,6 +82,7 @@ class SearchUserActivity : AppCompatActivity() {
                     linearLayoutManager.findLastCompletelyVisibleItemPosition()
 
                 if (lastVisibleItemPosition == adapter.currentList.size - 1) {
+                    viewModel.isOnScrollingPage = true
                     viewModel.search(binding.edtSearch.text.toString())
                 }
             }
@@ -98,6 +105,7 @@ class SearchUserActivity : AppCompatActivity() {
                 if (view.text.isNotBlank()) {
                     viewModel.apply {
                         currentPage = 0
+                        viewModel.isOnScrollingPage = false
                         search(view.text.toString())
                     }
                 }
