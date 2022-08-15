@@ -1,4 +1,4 @@
-package com.lukmannudin.githubapp.data
+package com.lukmannudin.githubapp.data.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

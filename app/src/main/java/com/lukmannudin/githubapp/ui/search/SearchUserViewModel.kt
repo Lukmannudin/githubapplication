@@ -8,8 +8,8 @@ import com.lukmannudin.githubapp.common.UiState
 import com.lukmannudin.githubapp.common.extension.postFailureState
 import com.lukmannudin.githubapp.common.extension.postLoadingState
 import com.lukmannudin.githubapp.common.extension.postSuccessState
-import com.lukmannudin.githubapp.data.Result
-import com.lukmannudin.githubapp.data.User
+import com.lukmannudin.githubapp.data.model.Result
+import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.data.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -30,7 +30,7 @@ class SearchUserViewModel @Inject constructor(
     fun search(searchWord: String) {
         _viewState.postLoadingState()
         viewModelScope.launch {
-            val users = userRepositoryImpl.search(searchWord, currentPage++)
+            val users = userRepositoryImpl.search(searchWord, currentPage)
             users.collectLatest { userResponse ->
                 when (userResponse) {
                     is Result.Loading -> {
@@ -45,6 +45,7 @@ class SearchUserViewModel @Inject constructor(
                     }
                 }
             }
+            currentPage++
         }
     }
 

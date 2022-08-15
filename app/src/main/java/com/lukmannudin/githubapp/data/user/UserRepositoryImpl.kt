@@ -2,9 +2,9 @@ package com.lukmannudin.githubapp.data.user
 
 import com.lukmannudin.githubapp.common.extension.onFailure
 import com.lukmannudin.githubapp.common.extension.onSuccess
-import com.lukmannudin.githubapp.data.Repo
-import com.lukmannudin.githubapp.data.Result
-import com.lukmannudin.githubapp.data.User
+import com.lukmannudin.githubapp.data.model.Repo
+import com.lukmannudin.githubapp.data.model.Result
+import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.data.user.local.UserLocalDataSource
 import com.lukmannudin.githubapp.data.user.remote.UserRemoteDataSource
 import kotlinx.coroutines.flow.Flow
@@ -53,10 +53,22 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun fetchRepos(username: String): Flow<Result<List<Repo>>> = flow {
+    override suspend fun fetchRepos(
+        user: User,
+        page: Int,
+        forceReload: Boolean
+    ): Flow<Result<List<Repo>>> = flow {
         emit(Result.Loading)
-        userRemoteDataSource.getRepos(username).apply {
+        userLocalDataSource.getRepositories(user.id).apply {
             onSuccess { repositories ->
+                emit(Result.Success(repositories))
+            }
+        }
+
+        emit(Result.Loading)
+        userRemoteDataSource.getRepositories(user.login, page).apply {
+            onSuccess { repositories ->
+                saveRepositoriesToDatabase(repositories, user.id)
                 emit(Result.Success(repositories))
             }
             onFailure { exception ->
@@ -73,6 +85,16 @@ class UserRepositoryImpl(
 
     private suspend fun saveUser(user: User) {
         userLocalDataSource.saveUser(user)
+    }
+
+    private suspend fun saveRepositoriesToDatabase(repositories: List<Repo>, userId: Int) {
+        repositories.forEach { repository ->
+            saveRepository(repository, userId)
+        }
+    }
+
+    private suspend fun saveRepository(repository: Repo, userId: Int) {
+        userLocalDataSource.saveRepository(repository, userId)
     }
 
     private suspend fun mergeSearchWithGetUser(users: List<User>): List<User> {

@@ -1,8 +1,9 @@
 package com.lukmannudin.githubapp.data.mapper.usermapper
 
-import com.lukmannudin.githubapp.data.Repo
-import com.lukmannudin.githubapp.data.User
-import com.lukmannudin.githubapp.data.repo.remote.RepoRemote
+import com.lukmannudin.githubapp.data.model.Repo
+import com.lukmannudin.githubapp.data.model.User
+import com.lukmannudin.githubapp.data.user.local.RepoLocal
+import com.lukmannudin.githubapp.data.user.remote.RepoRemote
 import com.lukmannudin.githubapp.data.user.local.UserLocal
 import com.lukmannudin.githubapp.data.user.remote.UserRemote
 
@@ -26,5 +27,21 @@ object UserMapper {
 
     fun userToLocalUser(user: User): UserLocal {
         return UserToUserLocal().map(user)
+    }
+
+    fun repositoriesLocalToRepositories(localRepositories: List<RepoLocal>): List<Repo> {
+        return UserLocalRepositoriesToUserRepositories(UserLocalRepoToUserRepo()).map(localRepositories)
+    }
+
+    fun repositoriesToLocalRepositories(repositories: List<Repo>, userId: Int): List<RepoLocal> {
+        return UserRepositoriesToUserLocalRepositories(UserRepoToUserLocalRepo(userId)).map(repositories)
+    }
+
+    fun repoLocalToRepo(repoLocal: RepoLocal): Repo {
+        return UserLocalRepoToUserRepo().map(repoLocal)
+    }
+
+    fun repoToLocal(repo: Repo, userId: Int): RepoLocal {
+        return UserRepoToUserLocalRepo(userId).map(repo)
     }
 }

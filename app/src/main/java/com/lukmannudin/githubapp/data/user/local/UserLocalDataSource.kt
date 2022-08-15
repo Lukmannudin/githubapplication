@@ -1,8 +1,9 @@
 package com.lukmannudin.githubapp.data.user.local
 
-import com.lukmannudin.githubapp.data.Result
-import com.lukmannudin.githubapp.data.User
 import com.lukmannudin.githubapp.data.mapper.usermapper.UserMapper
+import com.lukmannudin.githubapp.data.model.Repo
+import com.lukmannudin.githubapp.data.model.Result
+import com.lukmannudin.githubapp.data.model.User
 
 class UserLocalDataSource(
     private val userDao: UserDao
@@ -20,5 +21,19 @@ class UserLocalDataSource(
 
     suspend fun saveUser(user: User) {
         userDao.insert(UserMapper.userToLocalUser(user))
+    }
+
+    suspend fun getRepositories(userId: Int): Result<List<Repo>> {
+        return try {
+            val repositoryLocal = userDao.getRepositoryByUserId(userId)
+            val repository = UserMapper.repositoriesLocalToRepositories(repositoryLocal)
+            Result.Success(repository)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    suspend fun saveRepository(repo: Repo, userId: Int) {
+        userDao.insert(UserMapper.repoToLocal(repo, userId))
     }
 }

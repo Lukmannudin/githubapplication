@@ -2,7 +2,7 @@ package com.lukmannudin.githubapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.lukmannudin.githubapp.data.AppDatabase
+import com.lukmannudin.githubapp.data.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

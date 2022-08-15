@@ -1,7 +1,7 @@
 package com.lukmannudin.githubapp.ui.search
 
 import androidx.recyclerview.widget.DiffUtil
-import com.lukmannudin.githubapp.data.User
+import com.lukmannudin.githubapp.data.model.User
 
 /**
  * Created by Lukmannudin on 12/08/22

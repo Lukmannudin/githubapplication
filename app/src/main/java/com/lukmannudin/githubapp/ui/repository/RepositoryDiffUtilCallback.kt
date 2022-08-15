@@ -1,7 +1,7 @@
 package com.lukmannudin.githubapp.ui.repository
 
 import androidx.recyclerview.widget.DiffUtil
-import com.lukmannudin.githubapp.data.Repo
+import com.lukmannudin.githubapp.data.model.Repo
 
 /**
  * Created by Lukmannudin on 12/08/22

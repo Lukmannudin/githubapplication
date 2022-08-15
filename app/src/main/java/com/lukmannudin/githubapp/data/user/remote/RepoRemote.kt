@@ -1,4 +1,4 @@
-package com.lukmannudin.githubapp.data.repo.remote
+package com.lukmannudin.githubapp.data.user.remote
 
 import com.google.gson.annotations.SerializedName
 

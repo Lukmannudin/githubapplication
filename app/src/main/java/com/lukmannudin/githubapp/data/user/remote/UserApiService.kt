@@ -1,13 +1,10 @@
 package com.lukmannudin.githubapp.data.user.remote
 
-import com.lukmannudin.githubapp.data.BaseResponse
-import com.lukmannudin.githubapp.data.repo.remote.RepoRemote
-import com.lukmannudin.githubapp.data.user.remote.UserRemote
+import com.lukmannudin.githubapp.data.model.BaseResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import retrofit2.http.Url
 
 interface UserApiService {
 
@@ -19,6 +16,6 @@ interface UserApiService {
     suspend fun getUser(@Path("username") username: String): Response<UserRemote>
 
     @GET("users/{username}/repos")
-    suspend fun getRepos(@Path("username") username: String): Response<List<RepoRemote>>
+    suspend fun getRepos(@Path("username") username: String, @Query("page") page: Int): Response<List<RepoRemote>>
 
 }

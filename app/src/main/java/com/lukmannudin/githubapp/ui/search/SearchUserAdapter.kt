@@ -3,7 +3,7 @@ package com.lukmannudin.githubapp.ui.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.lukmannudin.githubapp.data.User
+import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.databinding.ItemUserBinding
 
 class SearchUserAdapter : ListAdapter<User, SearchUserViewHolder>(SearchUserDiffUtilCallback()) {
@@ -28,6 +28,9 @@ class SearchUserAdapter : ListAdapter<User, SearchUserViewHolder>(SearchUserDiff
         val items = mutableListOf<User>()
         items.addAll(currentList)
         items.addAll(users)
+        items.sortBy { user ->
+            user.login
+        }
         submitList(items)
     }
 

@@ -6,11 +6,9 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lukmannudin.githubapp.common.extension.gone
-import com.lukmannudin.githubapp.common.extension.showAsCircle
-import com.lukmannudin.githubapp.common.extension.showIfNotEmpty
-import com.lukmannudin.githubapp.common.extension.visible
-import com.lukmannudin.githubapp.data.User
+import androidx.recyclerview.widget.RecyclerView
+import com.lukmannudin.githubapp.common.extension.*
+import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.databinding.ActivityRepositoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,7 +44,6 @@ class RepositoryActivity : AppCompatActivity() {
                 tvLocation.showIfNotEmpty(user.location)
                 tvEmail.showIfNotEmpty(user.email)
             }
-
         }
     }
 
@@ -55,6 +52,7 @@ class RepositoryActivity : AppCompatActivity() {
         with(binding.rvRepository) {
             adapter = this@RepositoryActivity.adapter
             layoutManager = linearLayoutManager
+            addOnScrollListener(getScrollListener(linearLayoutManager))
         }
     }
 
@@ -71,23 +69,43 @@ class RepositoryActivity : AppCompatActivity() {
     }
 
     private fun setRepositoryObserver() {
-        viewModel.repositories.observe(this) { viewState ->
-            when (viewState) {
-                is RepositoryViewModel.RepositoryViewState.Loading -> {
-                    setupLoading(true)
-                }
-                is RepositoryViewModel.RepositoryViewState.RepositoryFailure -> {
-                    setupLoading(false)
-                }
-                is RepositoryViewModel.RepositoryViewState.RepositoryLoaded -> {
-                    setupLoading(false)
-                    adapter.addAll(viewState.repositories)
+        viewModel.repositoriesState.observe(this) { viewState ->
+            viewState.onLoading {
+                setOnLoading(true)
+            }
+            viewState.onFailure {
+                setOnLoading(false)
+            }
+            viewState.onComplete { repositories ->
+                setOnLoading(false)
+                repositories?.let {
+                    if (viewModel.isOnScrollingPage) {
+                        adapter.addAll(it)
+                    } else {
+                        adapter.clearAndAddAll(it)
+                    }
                 }
             }
         }
     }
 
-    private fun setupLoading(status: Boolean) {
+    private fun getScrollListener(linearLayoutManager: LinearLayoutManager): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                val lastVisibleItemPosition =
+                    linearLayoutManager.findLastCompletelyVisibleItemPosition()
+
+                if (lastVisibleItemPosition == adapter.currentList.size - 1) {
+                    viewModel.isOnScrollingPage = true
+                    viewModel.getRepositories(true)
+                }
+            }
+        }
+    }
+
+    private fun setOnLoading(status: Boolean) {
         with(binding.pbProgressbar) {
             if (status) {
                 visible()

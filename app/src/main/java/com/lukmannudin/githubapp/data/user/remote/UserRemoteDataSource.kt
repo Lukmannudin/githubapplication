@@ -1,10 +1,9 @@
 package com.lukmannudin.githubapp.data.user.remote
 
-import com.lukmannudin.githubapp.data.Repo
-import com.lukmannudin.githubapp.data.Result
-import com.lukmannudin.githubapp.data.User
+import com.lukmannudin.githubapp.data.model.Repo
+import com.lukmannudin.githubapp.data.model.Result
+import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.data.mapper.usermapper.UserMapper
-import com.lukmannudin.githubapp.data.repo.remote.RepoRemote
 import javax.inject.Inject
 
 class UserRemoteDataSource @Inject constructor(
@@ -52,10 +51,10 @@ class UserRemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun getRepos(username: String): Result<List<Repo>> {
+    suspend fun getRepositories(username: String, page: Int): Result<List<Repo>> {
         val repoRemote: MutableList<RepoRemote> = mutableListOf()
         try {
-            val response = userApiService.getRepos(username)
+            val response = userApiService.getRepos(username, page)
             repoRemote.addAll(response.body()!!)
             if (!response.isSuccessful) {
                 return Result.Error(Exception("Get data users from server failed"))

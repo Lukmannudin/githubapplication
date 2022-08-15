@@ -2,9 +2,10 @@ package com.lukmannudin.githubapp.ui.repository
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.ListAdapter
-import com.lukmannudin.githubapp.data.Repo
-import com.lukmannudin.githubapp.data.User
+import com.lukmannudin.githubapp.data.model.Repo
+import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.databinding.ItemRepositoryBinding
 
 class RepositoryAdapter : ListAdapter<Repo, RepositoryViewHolder>(RepositoryDiffUtilCallback()) {
@@ -25,12 +26,22 @@ class RepositoryAdapter : ListAdapter<Repo, RepositoryViewHolder>(RepositoryDiff
         holder.bindItem(currentList[position], user)
     }
 
-    fun addAll(repositories: List<Repo>) {
-        submitList(repositories)
+    fun addAll(users: List<Repo>) {
+        val items = mutableListOf<Repo>()
+        items.addAll(currentList)
+        items.addAll(users)
+        val sortedItems = items.sortedBy { repo ->
+            repo.name
+        }
+        submitList(sortedItems.distinctBy {
+            repo -> repo.name
+        })
     }
 
-    fun clear() {
-        submitList(mutableListOf())
+    fun clearAndAddAll(repositories: List<Repo>) {
+        submitList(repositories.sortedBy { repo ->
+            repo.name
+        })
     }
 
 }

@@ -1,6 +1,6 @@
 package com.lukmannudin.githubapp.common.extension
 
-import com.lukmannudin.githubapp.data.Result
+import com.lukmannudin.githubapp.data.model.Result
 
 inline fun <reified T> Result<T>.onLoading(callback: () -> Unit) {
     if (this is Result.Loading) {

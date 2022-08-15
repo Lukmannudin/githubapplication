@@ -1,6 +1,6 @@
 package com.lukmannudin.githubapp.data.mapper.usermapper
 
-import com.lukmannudin.githubapp.data.User
+import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.data.mapper.Mapper
 import com.lukmannudin.githubapp.data.mapper.NullableInputListMapper
 import com.lukmannudin.githubapp.data.user.remote.UserRemote

@@ -4,8 +4,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lukmannudin.githubapp.common.extension.getLastUpdatedTimeText
 import com.lukmannudin.githubapp.common.extension.showAsCircle
 import com.lukmannudin.githubapp.common.extension.showIfNotEmpty
-import com.lukmannudin.githubapp.data.Repo
-import com.lukmannudin.githubapp.data.User
+import com.lukmannudin.githubapp.data.model.Repo
+import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.databinding.ItemRepositoryBinding
 
 

@@ -1,8 +1,8 @@
 package com.lukmannudin.githubapp.data.user
 
-import com.lukmannudin.githubapp.data.Repo
-import com.lukmannudin.githubapp.data.Result
-import com.lukmannudin.githubapp.data.User
+import com.lukmannudin.githubapp.data.model.Repo
+import com.lukmannudin.githubapp.data.model.Result
+import com.lukmannudin.githubapp.data.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
@@ -10,6 +10,6 @@ interface UserRepository {
 
     suspend fun fetchUser(username: String): Flow<Result<User>>
 
-    suspend fun fetchRepos(username: String): Flow<Result<List<Repo>>>
+    suspend fun fetchRepos(user: User, page: Int, forceReload: Boolean): Flow<Result<List<Repo>>>
 
 }

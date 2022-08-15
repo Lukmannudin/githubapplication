@@ -5,6 +5,7 @@ import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.lukmannudin.githubapp.BuildConfig
+import com.lukmannudin.githubapp.common.Keys
 import com.lukmannudin.githubapp.data.user.remote.UserApiService
 import dagger.Module
 import dagger.Provides
@@ -36,10 +37,10 @@ object NetworkModule {
             .addInterceptor { chain: Interceptor.Chain ->
                 val request = chain.request().newBuilder()
                     .addHeader(
-                        "User-Agent", "Lukmannudin",
+                        "User-Agent", Keys.getUserAgent(),
                     )
                     .addHeader(
-                        "Authorization", "token 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")
+                        "Authorization", Keys.getToken())
                     .build()
                 chain.proceed(request)
             }

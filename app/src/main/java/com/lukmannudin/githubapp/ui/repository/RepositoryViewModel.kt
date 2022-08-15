@@ -4,11 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lukmannudin.githubapp.data.Repo
-import com.lukmannudin.githubapp.data.Result
-import com.lukmannudin.githubapp.data.User
+import com.lukmannudin.githubapp.common.UiState
+import com.lukmannudin.githubapp.common.extension.postFailureState
+import com.lukmannudin.githubapp.common.extension.postLoadingState
+import com.lukmannudin.githubapp.common.extension.postSuccessState
+import com.lukmannudin.githubapp.data.model.Repo
+import com.lukmannudin.githubapp.data.model.Result
+import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.data.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,8 +25,11 @@ class RepositoryViewModel @Inject constructor(
     private val _user = MutableLiveData<User?>()
     val user: LiveData<User?> = _user
 
-    private val _repositories = MutableLiveData<RepositoryViewState>()
-    val repositories: LiveData<RepositoryViewState> = _repositories
+    private val _repositoriesState = MutableLiveData<UiState<List<Repo>>>()
+    val repositoriesState: LiveData<UiState<List<Repo>>> = _repositoriesState
+
+    var currentPage: Int = 0
+    var isOnScrollingPage: Boolean = false
 
     fun initData(user: User?) {
         _user.value = user
@@ -30,29 +38,30 @@ class RepositoryViewModel @Inject constructor(
         }
     }
 
-    fun getRepositories(user: User) {
-        _repositories.value = RepositoryViewState.Loading
+    private fun getRepositories(user: User, forceReload: Boolean = false) {
+        _repositoriesState.postLoadingState()
         viewModelScope.launch {
-            val repositoryFlow = userRepository.fetchRepos(user.login)
-            repositoryFlow.collect { result ->
+            val repositoriesFlow = userRepository.fetchRepos(user, currentPage, forceReload)
+            repositoriesFlow.collectLatest { result ->
                 when (result) {
                     is Result.Error -> {
-                        _repositories.postValue(RepositoryViewState.RepositoryFailure)
+                        _repositoriesState.postFailureState(result.exception)
                     }
                     is Result.Success -> {
-                        _repositories.postValue(RepositoryViewState.RepositoryLoaded(result.data))
+                        _repositoriesState.postSuccessState(result.data)
                     }
                     Result.Loading -> {
-                        _repositories.postValue(RepositoryViewState.Loading)
+                        _repositoriesState.postLoadingState()
                     }
                 }
             }
+            currentPage++
         }
     }
 
-    sealed class RepositoryViewState {
-        object Loading : RepositoryViewState()
-        data class RepositoryLoaded(val repositories: List<Repo>) : RepositoryViewState()
-        object RepositoryFailure : RepositoryViewState()
+    fun getRepositories(forceReload: Boolean = false) {
+        user.value?.let { user ->
+            getRepositories(user, forceReload)
+        }
     }
 }

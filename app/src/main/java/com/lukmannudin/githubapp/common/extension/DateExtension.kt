@@ -20,6 +20,10 @@ fun String.toDate(pattern: String): Date? {
     }
 }
 
+fun Long.toDate(): Date {
+    return Date(this)
+}
+
 fun Date.getLastUpdatedTimeText(): String {
     val diff = Calendar.getInstance().time.time - this.time
 

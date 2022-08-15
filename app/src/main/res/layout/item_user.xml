@@ -73,6 +73,7 @@
         app:layout_constraintHorizontal_bias="0.001"
         app:layout_constraintStart_toEndOf="@id/tv_location"
         app:layout_constraintTop_toBottomOf="@id/tv_company"
+        app:layout_goneMarginStart="0dp"
         tools:text="lukman@gmail.com" />
 
     <View
@@ -83,8 +84,9 @@
         android:layout_marginTop="@dimen/margin_default"
         android:layout_marginEnd="@dimen/margin_large"
         android:background="@color/wild_sand"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_location"
-        app:layout_goneMarginTop="@dimen/margin_default" />
+        app:layout_goneMarginTop="48dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
