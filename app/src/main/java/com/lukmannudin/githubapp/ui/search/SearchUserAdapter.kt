@@ -32,7 +32,7 @@ class SearchUserAdapter : ListAdapter<User, SearchUserViewHolder>(SearchUserDiff
         items.sortBy { user ->
             user.login
         }
-        submitList(items)
+        submitList(items.distinct())
         EspressoIdlingResource.decrement()
     }
 
