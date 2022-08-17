@@ -20,7 +20,10 @@ class UserRepoToUserLocalRepo(
             input.description,
             input.createdAt?.time,
             input.fullName,
-            userId
+            userId,
+            input.updateAt?.time,
+            input.ownerName,
+            input.ownerAvatarUrl
         )
     }
 }

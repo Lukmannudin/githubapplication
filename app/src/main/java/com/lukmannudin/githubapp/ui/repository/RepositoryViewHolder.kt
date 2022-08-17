@@ -12,10 +12,10 @@ import com.lukmannudin.githubapp.databinding.ItemRepositoryBinding
 class RepositoryViewHolder(
     private val itemRepositoryBinding: ItemRepositoryBinding
 ) : RecyclerView.ViewHolder(itemRepositoryBinding.root) {
-    fun bindItem(repo: Repo, user: User?) {
+    fun bindItem(repo: Repo) {
         with(itemRepositoryBinding) {
             if (repo.name.isNotEmpty()) {
-                ivThumbnailUser.showAsCircle(user?.avatarUrl)
+                ivThumbnailUser.showAsCircle(repo.ownerAvatarUrl)
                 tvRepositoryName.showIfNotEmpty(repo.name)
                 tvDescription.showIfNotEmpty(repo.description)
                 tvStarLabel.showIfNotEmpty(repo.stargazersCount.toString())

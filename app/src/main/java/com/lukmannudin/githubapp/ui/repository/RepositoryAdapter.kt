@@ -2,15 +2,12 @@ package com.lukmannudin.githubapp.ui.repository
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.ListAdapter
 import com.lukmannudin.githubapp.data.model.Repo
 import com.lukmannudin.githubapp.data.model.User
 import com.lukmannudin.githubapp.databinding.ItemRepositoryBinding
 
 class RepositoryAdapter : ListAdapter<Repo, RepositoryViewHolder>(RepositoryDiffUtilCallback()) {
-
-    var user: User? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         return RepositoryViewHolder(
@@ -23,7 +20,7 @@ class RepositoryAdapter : ListAdapter<Repo, RepositoryViewHolder>(RepositoryDiff
     }
 
     override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) {
-        holder.bindItem(currentList[position], user)
+        holder.bindItem(currentList[position])
     }
 
     fun addAll(users: List<Repo>) {

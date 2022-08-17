@@ -13,5 +13,8 @@ data class Repo(
     val jsonMemberPrivate: Boolean,
     val description: String,
     val createdAt: Date?,
-    val fullName: String
+    val fullName: String,
+    val updateAt: Date?,
+    val ownerName: String?,
+    val ownerAvatarUrl: String?
 )
