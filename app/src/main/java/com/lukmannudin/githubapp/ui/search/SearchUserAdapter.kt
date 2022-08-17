@@ -29,9 +29,6 @@ class SearchUserAdapter : ListAdapter<User, SearchUserViewHolder>(SearchUserDiff
         val items = mutableListOf<User>()
         items.addAll(currentList)
         items.addAll(users)
-        items.sortBy { user ->
-            user.login
-        }
         submitList(items)
         EspressoIdlingResource.decrement()
     }

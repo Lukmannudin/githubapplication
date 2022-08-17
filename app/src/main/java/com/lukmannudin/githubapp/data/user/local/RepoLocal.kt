@@ -41,5 +41,14 @@ data class RepoLocal(
     val fullName: String,
 
     @ColumnInfo(name = "user_id")
-    val userId: Int
+    val userId: Int,
+
+    @ColumnInfo(name = "update_at")
+    val updateAt: Long?,
+
+    @ColumnInfo(name = "owner_name")
+    val ownerName: String?,
+
+    @ColumnInfo(name = "owner_avatar_url")
+    val ownerAvatarUrl: String?
 )

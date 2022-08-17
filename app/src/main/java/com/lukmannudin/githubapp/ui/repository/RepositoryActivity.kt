@@ -67,7 +67,6 @@ class RepositoryActivity : AppCompatActivity() {
 
     private fun setUserObserver() {
         viewModel.user.observe(this) { user ->
-            adapter.user = user
             setupView(user)
         }
     }

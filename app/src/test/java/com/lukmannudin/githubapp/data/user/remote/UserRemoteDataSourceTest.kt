@@ -184,7 +184,10 @@ class UserRemoteDataSourceTest {
             jsonMemberPrivate = false,
             description = "A collection of awesome readme templates to display on your profile",
             createdAt = "2020-07-18T01:13:58Z".toDate(Constant.CREATED_AT_PATTTERN),
-            fullName = "ramon/Awesome-Profile-README-templates"
+            fullName = "ramon/Awesome-Profile-README-templates",
+            updateAt = "2020-09-25T09:28:57Z".toDate(Constant.CREATED_AT_PATTTERN),
+            ownerName = "ramon",
+            ownerAvatarUrl = "https://avatars.githubusercontent.com/u/1380?v=4"
         )
     }
 }
