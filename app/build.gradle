@@ -50,14 +50,20 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation "junit:junit:$junit_version"
     androidTestImplementation 'androidx.test.ext:junit:1.1.4-alpha07'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0-alpha07'
+
+    // espresso idling version
+    implementation "androidx.test.espresso:espresso-idling-resource:$espresso_idling_version"
+
+    // core component
+    implementation "androidx.core:core-ktx:$core_component_version"
+
+    // ui component
+    implementation "androidx.appcompat:appcompat:$app_compat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
 
     // hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -105,10 +111,13 @@ dependencies {
     // android architecture component
     testImplementation "androidx.arch.core:core-testing:$core_testing_version"
 
+    // mockito
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    testImplementation "org.mockito:mockito-inline:$mockito_inline_version"
+
     // testing
     testImplementation "com.google.truth:truth:$truth_version"
 
-    testImplementation 'org.mockito:mockito-core:3.10.0'
-    androidTestImplementation 'org.mockito:mockito-android:3.10.0'
 
 }

@@ -34,5 +34,12 @@ ext {
     room_version = '2.4.3'
     core_testing_version = '2.1.0'
     truth_version = '0.43'
-    mockitoKotlinVersion = '2.2.0'
+    mockito_version = '3.10.0'
+    mockito_inline_version = '2.13.0'
+    junit_version = '4.13.2'
+    app_compat_version = '1.5.0'
+    material_version = '1.6.1'
+    constraint_layout_version = '2.1.4'
+    core_component_version = '1.8.0'
+    espresso_idling_version = '3.4.0'
 }
