@@ -86,9 +86,10 @@ class SearchUserActivityTest {
         )
         appCompatEditText2.perform(pressImeActionButton())
         onView(withId(R.id.rv_users)).check(matches(isDisplayed()))
-//        onView(withId(R.id.rv_users)).perform(
-//            actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
-//        )
+        onView(withId(R.id.rv_users)).perform(
+            actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
+        )
+        onView(withId(R.id.rv_repository)).check(matches(isDisplayed()))
     }
 
     private fun childAtPosition(

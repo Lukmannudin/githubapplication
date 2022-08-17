@@ -125,7 +125,7 @@ class RepositoryActivity : AppCompatActivity() {
         if (viewState is UiState.Loading) {
             EspressoIdlingResource.increment()
         } else {
-            EspressoIdlingResource.increment()
+            EspressoIdlingResource.decrement()
         }
     }
 
