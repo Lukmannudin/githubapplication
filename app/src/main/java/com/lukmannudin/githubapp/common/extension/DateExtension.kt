@@ -2,8 +2,10 @@ package com.lukmannudin.githubapp.common.extension
 
 import android.annotation.SuppressLint
 import android.os.Build
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -15,8 +17,10 @@ fun String.toDate(pattern: String): Date? {
         val localDate = LocalDate.parse(this, formatter)
         Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
     } else {
-        val dateFormat = SimpleDateFormat(pattern)
-        dateFormat.parse(pattern)
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val timeZone = TimeZone.getTimeZone("UTC")
+        simpleDateFormat.timeZone = timeZone
+        simpleDateFormat.parse(this)
     }
 }
 

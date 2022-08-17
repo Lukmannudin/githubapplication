@@ -1,5 +1,6 @@
 package com.lukmannudin.githubapp.data.mapper.usermapper
 
+import com.lukmannudin.githubapp.common.Constant
 import com.lukmannudin.githubapp.common.extension.toDate
 import com.lukmannudin.githubapp.data.model.Repo
 import com.lukmannudin.githubapp.data.mapper.Mapper
@@ -17,7 +18,7 @@ class UserRemoteRepoToUserRepo : Mapper<RepoRemote, Repo> {
             input.name ?: "",
             input.jsonMemberPrivate ?: false,
             input.description ?: "",
-            input.createdAt?.toDate("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            input.createdAt?.toDate(Constant.CREATED_AT_PATTTERN),
             input.fullName ?: ""
         )
     }

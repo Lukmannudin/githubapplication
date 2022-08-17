@@ -72,6 +72,4 @@ class UserRemoteDataSource @Inject constructor(
             UserMapper.userRemoteReposToUserRepos(repoRemote)
         )
     }
-
-
 }

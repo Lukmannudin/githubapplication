@@ -41,6 +41,11 @@ android {
             path "CMakeLists.txt"
         }
     }
+    sourceSets {
+        test {
+            resources.srcDirs += ['src/test/resources']
+        }
+    }
 }
 
 dependencies {
@@ -70,6 +75,7 @@ dependencies {
     // okhtpp
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_mock_version"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -104,4 +110,5 @@ dependencies {
 
     testImplementation 'org.mockito:mockito-core:3.10.0'
     androidTestImplementation 'org.mockito:mockito-android:3.10.0'
+
 }
